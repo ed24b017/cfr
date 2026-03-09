@@ -1,5 +1,6 @@
 import random
-
+import numpy as np
+import matplotlib.pyplot as plt
 '''
 Next work :
 need to define average strat
@@ -112,18 +113,20 @@ def cfr(cards : list[str], reach_p0, reach_p1, history) -> float:
     
     return node_value
 
-
-import random
-import matplotlib.pyplot as plt
-
 def train():
     cards = ["K", "Q", "J"]
 
     track_Q = []
     track_J = []
     track_K = []
+    track_K_check = []
+    track_Q_check = []
+    track_J_check = []
+    regret_K = []
+    regret_Q = []
+    regret_J = []
 
-    for i in range(100000):
+    for i in range(165000):
 
         sample = random.sample(cards, len(cards))
         p1_card = sample[0]
@@ -131,25 +134,62 @@ def train():
 
         cfr([p1_card, p2_card], 1, 1, "")
 
+        if(i % 1 == 0) : 
+            if "Q" in nodes:
+                strat = nodes["Q"].avg_strat()
+                track_Q_check.append(strat[1])
+                track_Q.append(strat[0])
+                regret_Q.append(sum(max(r,0) for r in nodes["Q"].regret_sum))
 
-        if "Q" in nodes:
-            track_Q.append(nodes["Q"].avg_strat()[0])
-        if "J" in nodes:
-            track_J.append(nodes["J"].avg_strat()[0])
-        if "K" in nodes:
-            track_K.append(nodes["K"].avg_strat()[0])
+            if "J" in nodes:
+                strat = nodes["J"].avg_strat()
+                track_J.append(strat[0])
+                track_J_check.append(strat[1])
+                regret_J.append(sum(max(r,0) for r in nodes["J"].regret_sum))
+
+            if "K" in nodes:
+                strat = nodes["K"].avg_strat()
+                track_K_check.append(strat[1])
+                track_K.append(strat[0])
+                regret_K.append(sum(max(r,0) for r in nodes["K"].regret_sum))
+
 
     x = range(len(track_Q))
+    
+    fig, ax = plt.subplots(2,2, figsize=(14,8))
 
-    plt.plot(range(len(track_K)), track_K, label="K bet prob")
-    plt.plot(range(len(track_Q)), track_Q, label="Q bet prob")
-    plt.plot(range(len(track_J)), track_J, label="J bet prob")
+    ax1 = ax[0,0]
+    ax2 = ax[0,1]
+    ax3 = ax[1,0]
+    ax4 = ax[1,1]
 
-    plt.xlabel("Training steps)")
-    plt.ylabel("Bet Probability")
-    plt.legend()
+    ax1.plot(smooth(track_K), label="K bet prob")
+    ax1.plot(smooth(track_Q), label="Q bet prob")
+    ax1.plot(smooth(track_J), label="J bet prob")
+    ax1.set_xlabel("Training steps")
+    ax1.set_ylabel("Bet Probability")
+    ax1.legend()
+
+    ax2.plot(smooth(track_K_check), label="K check")
+    ax2.plot(smooth(track_Q_check), label="Q check")
+    ax2.plot(smooth(track_J_check), label="J check")
+    ax2.set_xlabel("Training steps")
+    ax2.set_ylabel("Check Probability")
+    ax2.set_title("Root Strategy Convergence")
+    ax2.legend()
+
+    ax3.plot(regret_K, label="K regret")
+    ax3.plot(regret_Q, label="Q regret")
+    ax3.plot(regret_J, label="J regret")
+    ax3.set_title("Regret evolution")
+    ax3.legend()
+
+    plt.tight_layout()
     plt.show()
-        
+
+def smooth(data, window=100):
+    return np.convolve(data, np.ones(window)/window, mode='valid')
+
     
 
 if __name__ == "__main__":
