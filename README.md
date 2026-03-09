@@ -66,7 +66,7 @@ These results match the **known analytical Nash Equilibrium** for Kuhn Poker, va
 
 ```
 .
-├── kuhn_cfr.py       # Main implementation
+├── main.py       # Main implementation
 └── README.md
 ```
 
