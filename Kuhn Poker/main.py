@@ -150,28 +150,48 @@ def train():
 
     x = range(len(track_Q))
     
-    fig, ax = plt.subplots(1,2, figsize=(14,5))
-
-    ax1 = ax[0]
-    ax2 = ax[1]
-
-
-    ax1.plot(smooth(track_K), label="K bet prob")
-    ax1.plot(smooth(track_Q), label="Q bet prob")
-    ax1.plot(smooth(track_J), label="J bet prob")
-    ax1.set_xlabel("Training steps")
-    ax1.set_ylabel("Bet Probability")
-    ax1.legend()
-
-    ax2.plot(smooth(track_K_check), label="K check")
-    ax2.plot(smooth(track_Q_check), label="Q check")
-    ax2.plot(smooth(track_J_check), label="J check")
-    ax2.set_xlabel("Training steps")
-    ax2.set_ylabel("Check Probability")
-    ax2.legend()
-
-    plt.tight_layout()
+    plt.figure()
+    plt.plot(smooth(track_K), label="K bet prob")
+    plt.plot(smooth(track_Q), label="Q bet prob")
+    plt.plot(smooth(track_J), label="J bet prob")
+    plt.xlabel("Training steps")
+    plt.ylabel("Bet Probability")
+    plt.legend()
     plt.show()
+    
+    
+    plt.figure()
+    plt.plot(smooth(track_K_check), label="K check")
+    plt.plot(smooth(track_Q_check), label="Q check")
+    plt.plot(smooth(track_J_check), label="J check")
+    plt.xlabel("Training steps")
+    plt.ylabel("Check Probability")
+    plt.legend()
+    plt.show()
+    
+        
+    # fig, ax = plt.subplots(1,2, figsize=(14,5))
+
+    # ax1 = ax[0]
+    # ax2 = ax[1]
+
+
+    # ax1.plot(smooth(track_K), label="K bet prob")
+    # ax1.plot(smooth(track_Q), label="Q bet prob")
+    # ax1.plot(smooth(track_J), label="J bet prob")
+    # ax1.set_xlabel("Training steps")
+    # ax1.set_ylabel("Bet Probability")
+    # ax1.legend()
+
+    # ax2.plot(smooth(track_K_check), label="K check")
+    # ax2.plot(smooth(track_Q_check), label="Q check")
+    # ax2.plot(smooth(track_J_check), label="J check")
+    # ax2.set_xlabel("Training steps")
+    # ax2.set_ylabel("Check Probability")
+    # ax2.legend()
+
+    # plt.tight_layout()
+    # plt.show()
 
 def smooth(data, window=100):
     return np.convolve(data, np.ones(window)/window, mode='valid')
