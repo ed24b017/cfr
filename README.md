@@ -9,6 +9,7 @@ A minimal Python implementation of the **Counterfactual Regret Minimization (CFR
 Kuhn Poker is a two-player card game using only three cards: **King (K), Queen (Q), and Jack (J)**. Each player is dealt one card, and one round of betting takes place.
 
 **Rules:**
+
 - Each player antes 1 chip
 - Player 1 acts first: **Bet** or **Check**
 - If Player 1 **Bets** → Player 2 can **Call** or **Fold**
@@ -25,6 +26,7 @@ Kuhn Poker is a two-player card game using only three cards: **King (K), Queen (
 **Counterfactual Regret Minimization** is a self-play algorithm that iteratively reduces regret for each action at every decision point (infoset). Over many iterations, the average strategy converges to a **Nash Equilibrium**.
 
 At each infoset, the algorithm:
+
 1. Computes the counterfactual value of each action
 2. Updates regret sums based on missed value
 3. Derives a new mixed strategy proportional to positive regrets
@@ -38,23 +40,23 @@ After ~165,000 training iterations, the algorithm converges to the theoretical N
 
 ### Bet Probabilities (Player 1 opening)
 
-![Bet Probabilities](fig1.png)
+![Bet Probabilities](/Library/fig1.png)
 
-| Card | Converged Bet Probability | Interpretation |
-|------|--------------------------|----------------|
-| K    | ~1.0                     | Always bet with the best hand |
-| Q    | ~0.0                     | Never bluff with the middle card |
-| J    | ~0.33                    | Bluff ~1/3 of the time with the worst hand |
+| Card | Converged Bet Probability | Interpretation                             |
+| ---- | ------------------------- | ------------------------------------------ |
+| K    | ~1.0                      | Always bet with the best hand              |
+| Q    | ~0.0                      | Never bluff with the middle card           |
+| J    | ~0.33                     | Bluff ~1/3 of the time with the worst hand |
 
 ### Check Probabilities (Player 1 opening)
 
-![Check Probabilities](fig2.png)
+![Check Probabilities](/Library/fig2.png)
 
-| Card | Converged Check Probability | Interpretation |
-|------|---------------------------|----------------|
-| K    | ~0.0                      | Never check with the best hand |
-| Q    | ~1.0                      | Always check with the middle card |
-| J    | ~0.67                     | Check ~2/3 of the time with the worst hand |
+| Card | Converged Check Probability | Interpretation                             |
+| ---- | --------------------------- | ------------------------------------------ |
+| K    | ~0.0                        | Never check with the best hand             |
+| Q    | ~1.0                        | Always check with the middle card          |
+| J    | ~0.67                       | Check ~2/3 of the time with the worst hand |
 
 These results match the **known analytical Nash Equilibrium** for Kuhn Poker, validating the implementation.
 
@@ -81,11 +83,13 @@ These results match the **known analytical Nash Equilibrium** for Kuhn Poker, va
 ## Running the Code
 
 **Requirements:**
+
 ```bash
 pip install numpy matplotlib
 ```
 
 **Run:**
+
 ```bash
 python kuhn_cfr.py
 ```
@@ -96,6 +100,6 @@ This will train the CFR agent and display the convergence plots for all card/act
 
 ## References
 
-- Kuhn, H. W. (1950). *Simplified Two-Person Poker*
-- Zinkevich et al. (2007). *Regret Minimization in Games with Incomplete Information*
-- Neller & Lanctot (2013). *An Introduction to Counterfactual Regret Minimization* — a great beginner resource
+- Kuhn, H. W. (1950). _Simplified Two-Person Poker_
+- Zinkevich et al. (2007). _Regret Minimization in Games with Incomplete Information_
+- Neller & Lanctot (2013). _An Introduction to Counterfactual Regret Minimization_ — a great beginner resource
