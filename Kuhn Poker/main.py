@@ -122,11 +122,8 @@ def train():
     track_K_check = []
     track_Q_check = []
     track_J_check = []
-    regret_K = []
-    regret_Q = []
-    regret_J = []
 
-    for i in range(165000):
+    for i in range(1, 165000):
 
         sample = random.sample(cards, len(cards))
         p1_card = sample[0]
@@ -139,29 +136,25 @@ def train():
                 strat = nodes["Q"].avg_strat()
                 track_Q_check.append(strat[1])
                 track_Q.append(strat[0])
-                regret_Q.append(sum(max(r,0) for r in nodes["Q"].regret_sum))
 
             if "J" in nodes:
                 strat = nodes["J"].avg_strat()
                 track_J.append(strat[0])
                 track_J_check.append(strat[1])
-                regret_J.append(sum(max(r,0) for r in nodes["J"].regret_sum))
 
             if "K" in nodes:
                 strat = nodes["K"].avg_strat()
                 track_K_check.append(strat[1])
                 track_K.append(strat[0])
-                regret_K.append(sum(max(r,0) for r in nodes["K"].regret_sum))
 
 
     x = range(len(track_Q))
     
-    fig, ax = plt.subplots(2,2, figsize=(14,8))
+    fig, ax = plt.subplots(1,2, figsize=(14,5))
 
-    ax1 = ax[0,0]
-    ax2 = ax[0,1]
-    ax3 = ax[1,0]
-    ax4 = ax[1,1]
+    ax1 = ax[0]
+    ax2 = ax[1]
+
 
     ax1.plot(smooth(track_K), label="K bet prob")
     ax1.plot(smooth(track_Q), label="Q bet prob")
@@ -175,14 +168,7 @@ def train():
     ax2.plot(smooth(track_J_check), label="J check")
     ax2.set_xlabel("Training steps")
     ax2.set_ylabel("Check Probability")
-    ax2.set_title("Root Strategy Convergence")
     ax2.legend()
-
-    ax3.plot(regret_K, label="K regret")
-    ax3.plot(regret_Q, label="Q regret")
-    ax3.plot(regret_J, label="J regret")
-    ax3.set_title("Regret evolution")
-    ax3.legend()
 
     plt.tight_layout()
     plt.show()
