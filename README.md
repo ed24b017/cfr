@@ -62,14 +62,6 @@ These results match the **known analytical Nash Equilibrium** for Kuhn Poker, va
 
 ---
 
-## Project Structure
-
-```
-.
-├── main.py       # Main implementation
-└── README.md
-```
-
 ### Key Components
 
 - **`Node`** — Represents an information set. Stores strategy, regret sums, and strategy sums.
